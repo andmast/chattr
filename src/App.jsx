@@ -30,7 +30,6 @@ class App extends Component {
   }
 
   addMessage(message) {
-    console.log("TCL: App -> addMessage -> Message", message);
     const newId = this.state.messages.length + 1;
     let currentUser;
     if (this.state.currentUser.name) {
@@ -49,11 +48,7 @@ class App extends Component {
   }
 
   changeUserName(userName) {
-		console.log("TCL: App -> changeUserName -> userName", userName)
-
    this.setState({ currentUser: {name: userName} });
-   console.log("here",this.state.currentUser)
-
   }
 
   componentDidMount() {
@@ -74,7 +69,6 @@ class App extends Component {
   }
 
   render() {
-    console.log("there", this.state.currentUser);
     return (
       <div>
         <NavBar />

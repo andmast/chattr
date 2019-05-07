@@ -4,7 +4,6 @@ import React, { Component } from "react";
 class ChatBar extends Component {
   _handleMessage = e => {
     if (e.key === "Enter") {
-      console.log("do validate", e.target.value);
       this.props.addMessage(e.target.value);
       e.target.value ="";
     }
@@ -12,7 +11,6 @@ class ChatBar extends Component {
 
   _handleUsername = e => {
     if (e.key === "Enter") {
-      console.log("do validate", e.target.value);
       this.props.changeUserName(e.target.value);
     }
   };
