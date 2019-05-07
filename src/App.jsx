@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: "Bob" }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: { }, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
         {
           username: "Bob",
@@ -32,10 +32,16 @@ class App extends Component {
   addMessage(message) {
     console.log("TCL: App -> addMessage -> Message", message);
     const newId = this.state.messages.length + 1;
+    let currentUser;
+    if (this.state.currentUser.name) {
+      currentUser = this.state.currentUser.name;
+    } else {
+      currentUser = "Anonymous";
+    }
 
     const newMessage = {
       id: newId,
-      username: this.state.currentUser.name,
+      username: currentUser,
       content: message
     };
     const messages = this.state.messages.concat(newMessage);

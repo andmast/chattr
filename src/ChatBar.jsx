@@ -6,6 +6,7 @@ class ChatBar extends Component {
     if (e.key === "Enter") {
       console.log("do validate", e.target.value);
       this.props.addMessage(e.target.value);
+      e.target.value ="";
     }
   };
 
@@ -21,8 +22,16 @@ class ChatBar extends Component {
       <footer className="chatbar">
         <input
           className="chatbar-username"
-          placeholder={this.props.currentUser.name}
-          defaultValue={this.props.currentUser.name}
+          placeholder={
+            this.props.currentUser.name
+              ? this.props.currentUser.name
+              : "UserName  Optional"
+          }
+          defaultValue={
+            this.props.currentUser.name
+              ? this.props.currentUser.name
+              :""
+          }
           onKeyDown={this._handleUsername}
         />
         <input

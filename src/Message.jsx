@@ -3,7 +3,6 @@ import React, { Component } from "react";
 
 class Message extends Component {
   render() {
-    console.log("Message",this.props.message.username);
     return (
       <div className="message">
         <span className="message-username">
