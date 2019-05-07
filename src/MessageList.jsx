@@ -3,9 +3,17 @@ import Message from "./Message.jsx";
 
 class MessageList extends Component {
   render() {
+    console.log(this.props.messages);
+    const Messages = this.props.messages.map(message => {
+      console.log("Message in map",message);
+      return <Message message={message} />;
+    });
+    console.log("Messages", Messages);
     return (
       <main className="messages">
-        <Message/>
+      {Messages}
+
+
         <div className="message system">
           Anonymous1 changed their name to nomnom.
         </div>
