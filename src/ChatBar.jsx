@@ -25,12 +25,10 @@ class ChatBar extends Component {
           placeholder={
             this.props.currentUser.name
               ? this.props.currentUser.name
-              : "UserName  Optional"
+              : "Your Name (Optional)"
           }
           defaultValue={
-            this.props.currentUser.name
-              ? this.props.currentUser.name
-              :""
+            this.props.currentUser.name ? this.props.currentUser.name : ""
           }
           onKeyDown={this._handleUsername}
         />
