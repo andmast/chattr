@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Message from "./Message.jsx";
+import Notification from "./Notification.jsx";
 
 class MessageList extends Component {
   render() {
@@ -8,12 +9,17 @@ class MessageList extends Component {
     });
     return (
       <main className="messages">
-      {Messages}
+      { this.props.messages.map( message => {
+        if (message.type === 'incomingMessage') {
+          return <Message key={message.id} message={message} />
+          } else {
+            return <Notification key={message.id} content={message.content}/>
+        }
 
 
-        <div className="message system">
-          Anonymous1 changed their name to nomnom.
-        </div>
+      })
+    }
+
       </main>
     );
   }

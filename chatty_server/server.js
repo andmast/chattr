@@ -32,9 +32,25 @@ wss.on('connection', (client) => {
 
   client.on('message', (rawMessage) => {
     const message = JSON.parse(rawMessage);
-    message["id"]= uuid();
-    console.log("TCL: receivedMessage","id", message.id, "User", message.username, "Said", message.content)
-    wss.broadcast(message)
+    message["id"] = uuid();
+    switch (message.type) {
+      case "postMessage":
+        // handle post message
+        console.log("TCL: postMessage", message);
+        message.type = "incomingMessage";
+        wss.broadcast(message);
+        break;
+      case "postNotification":
+			console.log("TCL: postNotification" , message);
+        // handle post notification
+        message.type = "incomingNotification";
+        wss.broadcast(message);
+        break;
+      default:
+        throw new Error(`Unknown event type: ${message.type}`);
+    }
+
+
   })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
