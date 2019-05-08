@@ -27,25 +27,22 @@ class App extends Component {
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUserName = this.changeUserName.bind(this);
-    this.connection = new WebSocket("ws://localhost:3001");
+    this.socket = new WebSocket("ws://localhost:3001");
   }
 
   addMessage(message) {
-    const newId = this.state.messages.length + 1;
     let currentUser;
     if (this.state.currentUser.name) {
       currentUser = this.state.currentUser.name;
     } else {
       currentUser = "Anonymous";
     }
-
-    const newMessage = {
-      id: newId,
-      username: currentUser,
-      content: message
-    };
-    const messages = this.state.messages.concat(newMessage);
-    this.setState({ messages: messages });
+    this.socket.send(
+      JSON.stringify({
+        username: currentUser,
+        content: message
+      })
+    );
   }
 
   changeUserName(userName) {
@@ -53,22 +50,23 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.connection.onopen = event => {
+    this.socket.onopen = event => {
       console.log("Connected to server");
     };
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
+    this.socket.onmessage = (event) => {
+      console.log("TCL: App -> this.socket.onmessage -> event", event.data, typeof event.data)
+      const message = JSON.parse(event.data)
+			console.log("TCL: App -> this.socket.onmessage -> message", message)
       const newMessage = {
-        id: 3,
-        username: "Michelle",
-        content: "Hello there!"
+        id: message.id,
+        username: message.username,
+        content: message.content
       };
+      console.log("TCL: App -> this.socket.onmessage -> newMessage", newMessage)
+
       const messages = this.state.messages.concat(newMessage);
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ messages: messages });
-    }, 3000);
+    }
   }
 
   render() {
