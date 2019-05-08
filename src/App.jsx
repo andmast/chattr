@@ -65,14 +65,30 @@ class App extends Component {
             username: message.username,
             content: message.content
           };
-          const messages = this.state.messages.concat(newMessage);
+         const messages = this.state.messages.concat(newMessage);
           this.setState({ messages: messages });
           break;
         case "incomingNotification":
-        console.log("TCL: App -> this.socket.onmessage -> incomingNotification", message)
-
+          console.log(
+            "TCL: App -> this.socket.onmessage -> incomingNotification",
+            message
+          );
           // handle incoming notification
+          const newNotification = {
+            type: "incomingNotification",
+            id: message.id,
+            content: message.content
+          };
+          console.log(
+            "TCL: App -> this.socket.onmessage -> newNotification",
+            newNotification
+          );
 
+          const notifications = this.state.messages.concat(
+            newNotification
+          );
+          console.log("HASDSADASD",notifications);
+          this.setState({ messages: notifications  });
           break;
         default:
           // show an error in the console if the message type is unknown
@@ -81,7 +97,9 @@ class App extends Component {
     }
   }
 
+
   render() {
+    console.log("Messages" , this.state.messages);
     return (
       <div>
         <NavBar />
