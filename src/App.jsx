@@ -27,6 +27,7 @@ class App extends Component {
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUserName = this.changeUserName.bind(this);
+    this.connection = new WebSocket("ws://localhost:3001");
   }
 
   addMessage(message) {
@@ -52,7 +53,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
+    this.connection.onopen = event => {
+      console.log("Connected to server");
+    };
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
