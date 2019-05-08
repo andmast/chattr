@@ -48,7 +48,7 @@ class App extends Component {
   }
 
   changeUserName(userName) {
-   this.setState({ currentUser: {name: userName} });
+  this.setState({ currentUser: {name: userName} });
   }
 
   componentDidMount() {
