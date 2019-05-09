@@ -10,9 +10,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       onlineusers: 0,
+      usernameColor: "",
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUserName = this.changeUserName.bind(this);
@@ -68,7 +69,8 @@ class App extends Component {
             type: "incomingMessage",
             id: message.id,
             username: message.username,
-            content: message.content
+            content: message.content,
+            color: message.color,
           };
           const messages = this.state.messages.concat(newMessage);
           this.setState({ messages: messages });

@@ -7,6 +7,12 @@ const uuid = require("uuid");
 // Set the port to 3001
 const PORT = 3001;
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const colorArray = ["#a51919", "#bbbbbb","#ffb321"];
+
 // Create a new express server
 const server = express()
    // Make the express server serve static assets (html, javascript, css) from the /public folder
@@ -25,13 +31,14 @@ wss.broadcast = function broadcast(data) {
 // When a client connects they are assigned a socket, represented by
 // the client parameter in the callback.
 wss.on('connection', (client) => {
-
+let color = "#" + Math.floor(Math.random() * 16777215).toString(16);;
+console.log("TCL: color", color);
   if(client) {
     console.log("Client connected");
     console.log("TCL: wss.clients", wss.clients.size);
     const userCount = {
       count: wss.clients.size,
-      type: "userCount"
+      type: "userCount",
     };
     wss.broadcast(userCount);
   }
@@ -39,7 +46,8 @@ wss.on('connection', (client) => {
   client.on('message', (rawMessage) => {
 		console.log("TCL: rawMessage", rawMessage);
     const message = JSON.parse(rawMessage);
-    message["id"] = uuid();
+    message.id = uuid();
+    message.color = color
     switch (message.type) {
       case "postMessage":
         // handle post message
