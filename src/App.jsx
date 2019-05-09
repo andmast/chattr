@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       currentUser: { }, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
+      onlineusers: 0,
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUserName = this.changeUserName.bind(this);
@@ -54,9 +55,13 @@ class App extends Component {
       console.log("Connected to server");
     };
     this.socket.onmessage = (event) => {
-      console.log("TCL: App -> this.socket.onmessage -> event", event.data, typeof event.data)
+      console.log("TCL: App -> this.socket.onmessage -> event", event)
       const message = JSON.parse(event.data)
       switch (message.type) {
+        case "userCount":
+        console.log("TCL: App -> this.socket.onmessage -> userCount", message.count)
+        this.setState({ onlineusers: message.count });
+        break;
         case "incomingMessage":
           // handle incoming message
           const newMessage = {
@@ -65,30 +70,20 @@ class App extends Component {
             username: message.username,
             content: message.content
           };
-         const messages = this.state.messages.concat(newMessage);
+          const messages = this.state.messages.concat(newMessage);
           this.setState({ messages: messages });
           break;
         case "incomingNotification":
-          console.log(
-            "TCL: App -> this.socket.onmessage -> incomingNotification",
-            message
-          );
           // handle incoming notification
           const newNotification = {
             type: "incomingNotification",
             id: message.id,
             content: message.content
           };
-          console.log(
-            "TCL: App -> this.socket.onmessage -> newNotification",
-            newNotification
-          );
-
           const notifications = this.state.messages.concat(
             newNotification
           );
-          console.log("HASDSADASD",notifications);
-          this.setState({ messages: notifications  });
+          this.setState({ messages: notifications });
           break;
         default:
           // show an error in the console if the message type is unknown
@@ -102,12 +97,12 @@ class App extends Component {
     console.log("Messages" , this.state.messages);
     return (
       <div>
-        <NavBar />
+        <NavBar users={this.state.onlineusers} />
         <MessageList messages={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser}
           addMessage={this.addMessage}
-          changeUserName = {this.changeUserName}
+          changeUserName={this.changeUserName}
         />
       </div>
     );
