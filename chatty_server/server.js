@@ -11,7 +11,7 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-const colorArray = ["#a51919", "#bbbbbb","#ffb321"];
+
 
 // Create a new express server
 const server = express()
@@ -21,21 +21,34 @@ const server = express()
 
 // Create the WebSockets server
 const wss = new SocketServer({ server });
+
+
+// Broadcast Function to send data to all clients
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     client.send(JSON.stringify(data));
   });
 };
 
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const colorArrary = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075']
+
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the client parameter in the callback.
+
 wss.on('connection', (client) => {
-let color = "#" + Math.floor(Math.random() * 16777215).toString(16);;
-console.log("TCL: color", color);
+let colorIndex = getRandomInt(colorArrary.length);
+console.log("TCL: colorIndex", colorIndex)
+let color = colorArrary[colorIndex];
+console.log("TCL: color", color)
+
   if(client) {
-    console.log("Client connected");
-    console.log("TCL: wss.clients", wss.clients.size);
+    // Handle an postUserCount to all clients
     const userCount = {
       count: wss.clients.size,
       type: "userCount",
@@ -44,20 +57,18 @@ console.log("TCL: color", color);
   }
 
   client.on('message', (rawMessage) => {
-		console.log("TCL: rawMessage", rawMessage);
+    // Handle messages from the clients
     const message = JSON.parse(rawMessage);
     message.id = uuid();
     message.color = color
     switch (message.type) {
       case "postMessage":
-        // handle post message
-        console.log("TCL: postMessage", message);
+        // handle postMessage to all clients
         message.type = "incomingMessage";
         wss.broadcast(message);
         break;
       case "postNotification":
-			console.log("TCL: postNotification" , message);
-        // handle post notification
+        // handle postNotification to all clients
         message.type = "incomingNotification";
         wss.broadcast(message);
         break;
@@ -70,7 +81,7 @@ console.log("TCL: color", color);
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   client.on('close', () => {
-    console.log('Client disconnected')
+    // Handle an postUserCount to the clients
     const userCount = {
       count: wss.clients.size,
       type: "userCount"

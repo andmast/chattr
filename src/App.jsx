@@ -10,10 +10,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {},
       messages: [],
       onlineusers: 0,
-      usernameColor: "",
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUserName = this.changeUserName.bind(this);
@@ -21,6 +20,7 @@ class App extends Component {
   }
 
   addMessage(message) {
+     // handle postMessage to the Socket Server
     let currentUser;
     if (this.state.currentUser.name) {
       currentUser = this.state.currentUser.name;
@@ -37,6 +37,7 @@ class App extends Component {
   }
 
   changeUserName(userName) {
+     // handle postNotification to the Socket Server
     let currentUser;
     if (this.state.currentUser.name) {
       currentUser = this.state.currentUser.name;
@@ -53,30 +54,31 @@ class App extends Component {
 
   componentDidMount() {
     this.socket.onopen = event => {
+      // checking if Socket server is up and connected to
       console.log("Connected to server");
     };
     this.socket.onmessage = (event) => {
-      console.log("TCL: App -> this.socket.onmessage -> event", event)
+      // Handle messages from the socket server
       const message = JSON.parse(event.data)
       switch (message.type) {
         case "userCount":
-        console.log("TCL: App -> this.socket.onmessage -> userCount", message.count)
-        this.setState({ onlineusers: message.count });
-        break;
+          // handle incominguserCount from the socket server
+          this.setState({ onlineusers: message.count });
+          break;
         case "incomingMessage":
-          // handle incoming message
+          // handle incomingMessage from the socket server
           const newMessage = {
             type: "incomingMessage",
             id: message.id,
             username: message.username,
             content: message.content,
-            color: message.color,
+            color: message.color
           };
           const messages = this.state.messages.concat(newMessage);
           this.setState({ messages: messages });
           break;
         case "incomingNotification":
-          // handle incoming notification
+          // handle incoming notification from the socket server
           const newNotification = {
             type: "incomingNotification",
             id: message.id,
@@ -96,7 +98,6 @@ class App extends Component {
 
 
   render() {
-    console.log("Messages" , this.state.messages);
     return (
       <div>
         <NavBar users={this.state.onlineusers} />

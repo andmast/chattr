@@ -2,7 +2,9 @@ import React, { Component } from "react";
 
 
 class ChatBar extends Component {
+
   _handleMessage = e => {
+    // Handle an action up to the parent class (App.jsx) with callback function addMessage()
     if (e.key === "Enter") {
       this.props.addMessage(e.target.value);
       e.target.value ="";
@@ -10,6 +12,7 @@ class ChatBar extends Component {
   };
 
   _handleUsername = e => {
+    // Handle an action up to the parent class (App.jsx) with callback function changeUserName()
     if (e.key === "Enter") {
       this.props.changeUserName(e.target.value);
     }
