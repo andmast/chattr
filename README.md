@@ -21,7 +21,7 @@
 
 ## Product Screenshots
 
-### Chattr
+### Chattr user interaction snap shots
 
 !["4Users"](readme-imgs/4Users.png)
 
