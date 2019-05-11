@@ -23,7 +23,7 @@
 
 ### Chattr user interaction snap shots
 
-!["4Users"](readme-imgs/4Users.png)
+!["4Users"](readme-imgs/Test.png)
 
 !["3Users"](readme-imgs/3Users.png)
 
