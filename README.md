@@ -1,5 +1,7 @@
 # Chattr App
 
+A simple chat app with a React front-end and a Web Socket Server back-end;
+
 ==========================================
 
 ## Getting Started
@@ -10,12 +12,15 @@
 
 ==========================================
 
-### Dependencies
+## Dependencies
 
 - React
 - Webpack
 - [babel-loader](https://github.com/babel/babel-loader)
 - [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+- Express
+- Uuid
+- WSS
 
 ==========================================
 
@@ -30,3 +35,12 @@
 !["2Users"](readme-imgs/2Users.png)
 
 !["1User"](readme-imgs/1User.png)
+
+==========================================
+
+## Future Features To Come
+
+- Notifcation to all connected clients when a client closes their browers
+- Allow images to be added to chats
+- Giphy API Integration
+- Custom Emojis
