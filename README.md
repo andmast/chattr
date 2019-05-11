@@ -40,7 +40,7 @@ A simple chat app with a React front-end and a Web Socket Server back-end;
 
 ## Future Features To Come
 
-- Notifcation to all connected clients when a client closes their browers
+- Notifcation to all connected clients when a client closes their browser window
 - Allow images to be added to chats
 - Giphy API Integration
 - Custom Emojis
