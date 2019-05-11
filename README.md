@@ -44,3 +44,4 @@ A simple chat app with a React front-end and a Web Socket Server back-end;
 - Allow images to be added to chats
 - Giphy API Integration
 - Custom Emojis
+- UserName colors are calculated algorithmically based on their name, or is manually selectable by users
