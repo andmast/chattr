@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import NavBar from "./NavBar.jsx";
-import ChatBar from "./ChatBar.jsx"
+import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
-
-
-
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +9,7 @@ class App extends Component {
     this.state = {
       currentUser: {},
       messages: [],
-      onlineusers: 0,
+      onlineusers: 0
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUserName = this.changeUserName.bind(this);
@@ -20,7 +17,7 @@ class App extends Component {
   }
 
   addMessage(message) {
-     // handle postMessage to the Socket Server
+    // handle postMessage to the Socket Server
     let currentUser;
     if (this.state.currentUser.name) {
       currentUser = this.state.currentUser.name;
@@ -37,18 +34,19 @@ class App extends Component {
   }
 
   changeUserName(userName) {
-     // handle postNotification to the Socket Server
+    // handle postNotification to the Socket Server
     let currentUser;
     if (this.state.currentUser.name) {
       currentUser = this.state.currentUser.name;
     } else {
       currentUser = "Anonymous";
     }
-  this.socket.send(
-    JSON.stringify({
-      type: "postNotification",
-      content: `${currentUser} has changed their name to ${userName}`
-    }));
+    this.socket.send(
+      JSON.stringify({
+        type: "postNotification",
+        content: `${currentUser} has changed their name to ${userName}`
+      })
+    );
     this.setState({ currentUser: { name: userName } });
   }
 
@@ -57,9 +55,10 @@ class App extends Component {
       // checking if Socket server is up and connected to
       console.log("Connected to server");
     };
-    this.socket.onmessage = (event) => {
+
+    this.socket.onmessage = event => {
       // Handle messages from the socket server
-      const message = JSON.parse(event.data)
+      const message = JSON.parse(event.data);
       switch (message.type) {
         case "userCount":
           // handle incominguserCount from the socket server
@@ -84,18 +83,15 @@ class App extends Component {
             id: message.id,
             content: message.content
           };
-          const notifications = this.state.messages.concat(
-            newNotification
-          );
+          const notifications = this.state.messages.concat(newNotification);
           this.setState({ messages: notifications });
           break;
         default:
           // show an error in the console if the message type is unknown
           throw new Error("Unknown event type " + data.type);
       }
-    }
+    };
   }
-
 
   render() {
     return (
